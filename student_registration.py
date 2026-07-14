@@ -13,7 +13,6 @@ import sys
 def main():
     welcome()
 
-
 def welcome():
     print("Saddleback College Registration")
     while True:
@@ -22,7 +21,6 @@ def welcome():
             print("Session ended.")
             sys.exit()
         is_student_real = does_contain_ID(student_id)
-        print(is_student_real)
         
         if is_student_real == True:
             break
@@ -57,6 +55,17 @@ def menu(student_ID):
         print(f"Good Afternoon {list[2]}, what would you like to do today?")
     elif 17 <=  hour < 24:
         print(f"Good Evening {list[2]}, what would you like to do today?")
+    
+    commands()
+
+def commands():
+    print("list - Full course listing")
+    print("detail - Course detail information")
+    print("info - Student information")
+    print("register - Register for a class")
+    print("dorp - drop a class")
+    print("menu - menu")
+    print("exit - End session")
 
 if __name__ == "__main__":
     main()
