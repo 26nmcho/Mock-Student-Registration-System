@@ -41,6 +41,7 @@ def creating_2d_list(list):
                     start_comma = end_comma +1
                 elif start_comma == 0:
                     internal_list.append(line[:end_comma])
+                    start_comma = end_comma +1
             end_comma += 1
         internal_list.append(line[start_comma:end_comma])
         two_d_array.append(internal_list)

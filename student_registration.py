@@ -6,7 +6,7 @@ date: 7/13/26
 desc: This module executes the main code for the student registration program
 and also calls the data module in order to access course, reigstration, and student files
 """
-
+from datetime import datetime
 import data_utils
 import sys
 
@@ -28,7 +28,7 @@ def welcome():
             break
         elif is_student_real == False:
             print("Student ID not found, please try again.")
-    menu()
+    menu(student_id)
 
 def does_contain_ID(student_id):
     list = data_utils.read_student_ID()
@@ -38,7 +38,7 @@ def does_contain_ID(student_id):
             return True
     return False
 
-def return_student_infor(student_id, is_student_real):
+def return_student_info(student_id, is_student_real):
     if is_student_real:
         list = data_utils.read_student_ID()
         list_b = data_utils.creating_2d_list(list)
@@ -47,7 +47,16 @@ def return_student_infor(student_id, is_student_real):
                 return line
     print("")
 
-def menu():
+def menu(student_ID):
+    list = return_student_info(student_ID, True)
+    time = datetime.now()
+    hour = int(time.strftime("%H"))
+    if 0 <=  hour < 12:
+        print(f"Good Morning {list[2]}, what would you like to do today?")
+    elif 12 <=  hour < 17:
+        print(f"Good Afternoon {list[2]}, what would you like to do today?")
+    elif 17 <=  hour < 24:
+        print(f"Good Evening {list[2]}, what would you like to do today?")
 
 if __name__ == "__main__":
     main()
