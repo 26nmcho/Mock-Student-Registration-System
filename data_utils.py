@@ -8,7 +8,8 @@ registration.
 """
 
 
-FILENAME = "students.dic"
+FILENAMEA = "students.dic"
+FILENAMEB = "courses.dic"
 
 def main():
     list = read_student_ID()
@@ -18,11 +19,22 @@ def main():
 
 def read_student_ID():
     try:
-        with open(FILENAME) as f:
+        with open(FILENAMEA) as f:
             student_info = f.readlines()
         return student_info
     except FileNotFoundError:
-        print(f"Could not find the {FILENAME} file.")
+        print(f"Could not find the {FILENAMEA} file.")
+    except Exception as e:
+        print(type(e), e)
+    return ""
+
+def read_courses():
+    try: 
+        with open(FILENAMEB) as c:
+            courses = c.readlines()
+            return courses
+    except FileNotFoundError:
+        print(f"Could not find the {FILENAMEB} file.")
     except Exception as e:
         print(type(e), e)
     return ""
