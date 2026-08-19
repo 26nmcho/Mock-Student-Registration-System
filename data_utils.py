@@ -6,11 +6,11 @@ date: 7/13/26
 desc: Thie module contains functions for data retrieval and organization regarding student
 registration.
 """
+import sys
 
-
-FILENAMEA = "students.dic"
-FILENAMEB = "courses.dic"
-FILENAMEC = "registration.dic"
+FILENAMEA = "data/students.dic"
+FILENAMEB = "data/courses.dic"
+FILENAMEC = "data/registration.dic"
 
 def main():
     list = read_student_ID()
@@ -25,6 +25,7 @@ def read_student_ID():
         return student_info
     except FileNotFoundError:
         print(f"Could not find the {FILENAMEA} file.")
+        sys.exit()
     except Exception as e:
         print(type(e), e)
     return ""
@@ -36,6 +37,7 @@ def read_courses():
             return courses
     except FileNotFoundError:
         print(f"Could not find the {FILENAMEB} file.")
+        sys.exit()
     except Exception as e:
         print(type(e), e)
     return ""
@@ -47,9 +49,35 @@ def read_registered():
             return registered
     except FileNotFoundError:
         print(f"Could not find the {FILENAMEC} file.")
+        sys.exit()
     except Exception as e:
         print(type(e), e)
     return ""
+
+def write_registered(info):
+    try: 
+        with open(FILENAMEC, "a") as file:
+                file.write(info + "\n") 
+    except FileNotFoundError:
+        print(f"Could not find the {FILENAMEC} file.")
+        sys.exit()
+    except Exception as e:
+        print(type(e), e)
+    return ""
+
+def delete_registered(info, delete_target):
+    try: 
+        with open(FILENAMEC, "w") as file:
+            for entry in info:
+                if delete_target not in entry:
+                    file.write(entry)
+    except FileNotFoundError:
+        print(f"Could not find the {FILENAMEC} file.")
+        sys.exit()
+    except Exception as e:
+        print(type(e), e)
+    return ""
+
 
 def creating_2d_list(list):
     count = 0
@@ -67,7 +95,7 @@ def creating_2d_list(list):
                     internal_list.append(line[:end_comma])
                     start_comma = end_comma +1
             end_comma += 1
-        internal_list.append(line[start_comma:end_comma])
+        internal_list.append(line[start_comma:end_comma].strip())
         two_d_array.append(internal_list)
     
     return two_d_array
