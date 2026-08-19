@@ -11,7 +11,6 @@ import data_utils
 import sys
 
 def main():
-    list()
     welcome()
 
 # function displays all welcome info such as time of day and menu
@@ -29,6 +28,13 @@ def welcome():
         elif is_student_real == False:
             print("Student ID not found, please try again.")
     menu(student_id)
+    select = input("Enter selection: ")
+    if select == "list":
+        list()
+    elif select == "detail":
+        detail()
+    elif select == "info":
+        info()
 
 # if the studentID entered is in the document then it returns true
 def does_contain_ID(student_id):
@@ -69,7 +75,7 @@ def commands():
     print("detail - Course detail information")
     print("info - Student information")
     print("register - Register for a class")
-    print("dorp - drop a class")
+    print("drop - drop a class")
     print("menu - menu")
     print("exit - End session")
 
@@ -80,17 +86,107 @@ def list():
         courses_b = data_utils.creating_2d_list(courses)
         tickets = []
         for line in courses_b:
-            tickets.append(line[0])
+            if line[0] == "ticket":
+                continue
+            else:
+                tickets.append(line[0])
         tickets.sort()
         courses_sorted = []
         for element in tickets:
             for line in courses_b:
                 if element == line[0]:
                     courses_sorted.append(line)
+        print("Course Listing by Ticket Number")     
         display_course_info(courses_sorted)
+        print(f"{len(courses_sorted)}")
+    elif ticket_o_code == "c":
+        courses = data_utils.read_courses()
+        courses_b = data_utils.creating_2d_list(courses)
+        tickets = []
+        for line in courses_b:
+            if line[1] == "code":
+                continue
+            else:
+                tickets.append(line[1])
+        tickets.sort()
+        courses_sorted = []
+        for element in tickets:
+            for line in courses_b:
+                if element == line[1]:
+                    courses_sorted.append(line)
+        print("Course Listing by Ticket Number")     
+        display_course_info(courses_sorted)
+        print(f"{len(courses_sorted)}")
+      
+    else:
+        print("Your input is invalid try again.")
+        print()
+        list()
 
-def display_course_info
-    
+def display_course_info(course):
+    print("Ticket".ljust(7), "Code".ljust(10), "Course Name".ljust(44), "Units".ljust(7), "Day".ljust(7), "Time".ljust(15), "Instructure")
+    print("=" * 120)
+    for line in course:
+        print(line[0].ljust(7), line[1].ljust(10), line[2].ljust(46), f"{float(line[3])}".ljust(5), line[4].ljust(7), line[5].ljust(15), line[6])
+
+def detail():
+    ticket = input("Enter course ticket # (or 'exit): ")
+    ticket_tries = 0
+    if ticket != "exit":
+        courses = data_utils.read_courses()
+        courses_b = data_utils.creating_2d_list(courses)
+        for line in courses_b:
+            if line[0] == ticket:
+                print(f"Code {line[1]} Course Name: {line[2]} Units: {float(line[3])} Day: {line[4]} Time: {line[5]} Instrucutor: {line[6]}")
+                print()
+                print("Enrolled Students")
+                print("=" * 100)
+                registered = data_utils.read_registered()
+                registered_b = data_utils.creating_2d_list(registered)
+                student_codes = []
+                num_of_students = 0
+                for line in registered_b:
+                    if line[1] == ticket:
+                        student_codes.append(line[0])
+                        num_of_students +=1
+                for line in student_codes:
+                    student = return_student_info(line, True)
+                    print(student[0].ljust(14), student[1].ljust(16), student(2))
+                print(f"Total Students Registered: {num_of_students}")
+            else: 
+                ticket_tries += 1
+    if ticket_tries == len(courses_b):
+        print(f"{ticket} not found")
+        print()
+        detail()
+
+def info():
+    student_id = input("Student ID")
+    students = data_utils.read_student_ID()
+    students_b = data_utils.creating_2d_list(students)
+    courses = []
+    filtered_courses = []
+    courses_2d = []
+    for student in students_b:
+        if student[0] == student_id:
+            list = return_student_info(student_id, True)
+            print(f"{list[1], {list[2]}}")
+            print()
+            print("Registered Courses")
+            registered = data_utils.read_registered()
+            registered_b = data_utils.creating_2d_list(registered)
+            for registered in registered_b:
+                if registered[0] == student_id:
+                    courses.append(registered[1])
+            courses_a = data_utils.read_courses()
+            courses_b = data_utils.creating_2d_list(courses_a)
+            for course in courses_b:
+                for registered_course in courses:
+                    if registered_course == course[0]:
+                        courses_2d.append(course)
+            display_course_info(courses_2d)
+            
+                
 
 if __name__ == "__main__":
     main()

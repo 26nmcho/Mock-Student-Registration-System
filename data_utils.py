@@ -10,6 +10,7 @@ registration.
 
 FILENAMEA = "students.dic"
 FILENAMEB = "courses.dic"
+FILENAMEC = "registration.dic"
 
 def main():
     list = read_student_ID()
@@ -35,6 +36,17 @@ def read_courses():
             return courses
     except FileNotFoundError:
         print(f"Could not find the {FILENAMEB} file.")
+    except Exception as e:
+        print(type(e), e)
+    return ""
+
+def read_registered():
+    try: 
+        with open(FILENAMEC) as r:
+            registered = r.readlines()
+            return registered
+    except FileNotFoundError:
+        print(f"Could not find the {FILENAMEC} file.")
     except Exception as e:
         print(type(e), e)
     return ""
